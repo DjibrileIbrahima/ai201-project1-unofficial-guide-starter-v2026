@@ -1,6 +1,6 @@
 # The Unofficial Guide
 
-<!-- Replace this line with your name and which corpus you picked. -->
+Djibrile Ibrahima - advice_threads
 
 > **This file is your submission.** Fill it in as you go — most sections get
 > written during the milestone that produces them, not at the end.
@@ -20,19 +20,15 @@
 # Unit 1
 
 ## What This Does
+This project answers questions using the advice_threads corpus, a set of student forum threads where someone asks a question and other students reply with advice they learned firsthand. It handles the practical, unofficial side of campus life: what to wear in winter, which parking lots sell out, how many times you can use pass/fail, or what a commuter locker costs. When you ask a question, the system finds the most relevant replies, writes a short answer from them, and names the thread it came from. If a question isn't covered by the threads, such as sports trivia or medical advice, the system refuses to answer instead of guessing.
 
-<!-- Three or four sentences. Which corpus you picked, and the kinds of
-     questions your system answers. Write it for someone who has never seen
-     this repo.
-
-     Milestone 5. -->
 
 ## Chunking Strategy
 
 **Chunk size:** No fixed character count. One reply per chunk, with the thread's question line on top (105–254 characters, 175 on average).
 **Overlap:** None.
 
-The `advice_threads` documents are short. The longest file is 812 characters, and each one is a `THREAD:` question followed by several replies separated by `--- reply N (X votes) ---` lines. Each reply is one self-contained piece of advice, so I split on those markers instead of a character count. The starter's 800-character windows either left a file whole or chopped a reply in half, and on files just over 800 characters they left a useless 2-character scrap at the end. A reply like "Earlier than feels reasonable" doesn't make sense without the question it answers, so I put the thread question at the top of every chunk. One trade-off: dropping the marker lines also drops the vote counts, so a highly upvoted reply looks the same as a less popular one.
+My documents are short. The longest file is only 812 characters. Each file is one question followed by a few replies. Each reply is its own piece of advice, so I made each reply its own chunk. The old chunker cut every 800 characters. Sometimes that split a reply in half. It also made one chunk that was only 2 characters long. A reply on its own can be unclear, so I added the thread question to the top of every chunk. One downside is that the vote counts are lost.
 
 <!-- What about YOUR documents made you pick these numbers? Short posts and
      long sectioned guides don't want the same chunking, and "800 seemed
@@ -150,9 +146,9 @@ I ran my five test questions and the five `OUT_OF_SCOPE` questions through `pyth
 
      Milestone 5. -->
 
-**1.**
+**1. I asked Claude to write split_documents for my corpus. It split each thread on the reply markers so every reply became its own chunk, with the thread question on top. I checked it with python app.py chunks and went from 26 chunks (one only 2 characters long) to 75 clean ones. I kept its trade-off of dropping vote counts, since my questions don't depend on them.**
 
-**2.**
+**2.  I asked Claude what relevance cutoff to use. It recommended 0.63, the midpoint between my in-corpus (max 0.44) and out-of-scope (min 0.82) distances. I chose 0.55 instead, because I'd rather refuse a real question than answer from unrelated threads.**
 
 <!-- ── Stretch features ─────────────────────────────────────────────────────
      Doing one? Say so here BEFORE you start. A feature this README never

@@ -25,6 +25,7 @@ contains the answer.
 **Why this target:**
 <!-- e.g. "One of my questions is about a topic only two documents mention, so
      I expect that one to be hard." -->
+Each of my questions is answered in one thread, so the right chunk should come back. I allow one miss because a question worded differently from the thread title can score worse. My winter question was my weakest at 0.44.
 
 ---
 
@@ -35,6 +36,7 @@ Every answer the system produces names at least one source document.
 **Why this target:**
 <!-- Why all five and not four? What about your setup makes that achievable —
      or what would have to go wrong for it not to be? -->
+Every chunk is labelled with its filename, and the prompt tells the model to name the file it used. An answer without a source can't be checked, so I don't want to allow any misses.
 
 ---
 
@@ -52,12 +54,13 @@ in at least 4 of 5 tries.
 **Why this target:**
 <!-- What did your distances look like when you set the cutoff in Milestone 4?
      Was there a clean gap, or did the two groups overlap? -->
+There was a clean gap. My in-corpus questions scored 0.29–0.44 and the out-of-scope ones 0.82–0.90, and my cutoff is 0.55. All 5 should be stopped. I allow one miss in case a new off-topic question happens to share words with a thread.
 
 ---
 
-## 4. How many models were called?
+## 4. Every chunk reads as a complete thought
 
-Every answer the system produces, it shows how many models were called.
+All 5 chunks printed by `python app.py chunks -n 5` can be understood on their own: they include the thread question and one complete reply, with no sentence cut off at either end.
 
 <!-- YOU WRITE THIS ONE.
 
@@ -74,7 +77,7 @@ Every answer the system produces, it shows how many models were called.
 
 
 **Why this target:**
-
+The old 800-character windows cut replies in half. Adding the thread question to each chunk is what lets a reply like "Earlier than feels reasonable" make sense on its own. I set the target at 5 of 5 rather than 4 of 5 because my chunker splits on the `--- reply N ---` markers, not on a character count, so it should never cut a sentence in half. If even one chunk fails, it means a file doesn't follow the reply format. That's a real bug in how I split, not bad luck, so I don't want the target to allow for it.
 
 
 ---
