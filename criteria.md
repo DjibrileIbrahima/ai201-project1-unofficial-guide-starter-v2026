@@ -79,9 +79,11 @@ Every answer the system produces, it shows how many models were called.
 
 ---
 
-## 5. How much tokens were used?
+## 5. Exact facts come through
 
-Every answer the system produces, it shows how many tokens were used.
+
+
+For my 2 questions with a specific figure ($20 locker; "two per year and eight across the degree"), the answer contains that exact figure in all 3 runs of each (6 of 6)
 
 <!-- YOU WRITE THIS ONE TOO.
 
@@ -94,7 +96,7 @@ Every answer the system produces, it shows how many tokens were used.
 
 
 **Why this target:**
-
+A wrong number is the most embarrassing failure. A student would act on it.
 
 
 ---
