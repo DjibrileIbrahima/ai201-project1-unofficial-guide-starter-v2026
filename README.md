@@ -177,15 +177,56 @@ I ran my five test questions and the five `OUT_OF_SCOPE` questions through `pyth
 
 | Criterion | Target | Run 1 | Run 2 | Run 3 | Verdict |
 |---|---|---|---|---|---|
-| 1. Retrieved chunk contains the answer | 4 of 5 |  |  |  |  |
-| 2. Every answer names a source | 5 of 5 |  |  |  |  |
-| 3. Gate stops out-of-corpus questions | 4 of 5 |  |  |  |  |
-| 4. | | | | | |
-| 5. | | | | | |
+| 1. Retrieved chunk contains the answer | 4 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+| 2. Every answer names a source | 5 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+| 3. Gate stops out-of-corpus questions | 4 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+| 4. Every chunk reads as a complete thought | 5 of 5 | 5 of 5 | 5 of 5 | 5 of 5 | MET |
+| 5. Exact facts come through | 6 of 6 | 2 of 2 | 2 of 2 | 2 of 2 | MET |
 
 <!-- Underneath, paste the REAL output for each criterion from one of your
      runs — the actual text your system produced, not a description of it.
      Name the file and function that produced it. -->
+
+Real output from `results/run_2026-09-28_0223_before.md`, produced by `run_eval.py::main` (retrieval by `store.py::search`, chunks from `chunker.py::split_documents`), run 1 unless noted.
+
+**Criteria 1 and 2:** right thread retrieved, source named:
+
+```
+Which parking lots sell out in August? — run 1
+- Best distance: 0.2898 (passed the gate)
+- Sources retrieved: thread_internship_timing.txt, thread_parking.txt, thread_winter_advice.txt
+
+The west lots sell out in about three days in August (thread_parking.txt).
+```
+
+**Criterion 3:** produced by `run_eval.py::check_out_of_scope`, cutoff 0.55. Refused 5 of 5:
+
+```
+| What is the capital of Mongolia? | 0.899 | refused |
+| How do I change the oil in a diesel engine? | 0.905 | refused |
+| Who won the 1994 World Cup? | 0.898 | refused |
+| What is the recommended dosage of ibuprofen for a headache? | 0.819 | refused |
+| How do I write a for loop in Rust? | 0.861 | refused |
+```
+
+**Criterion 4:** from `python app.py chunks -n 5`, produced by `chunker.py::split_documents` (all 5 are in Sample Chunks above):
+
+```
+Chunk 4  |  source: thread_parking.txt#1  |  produced by: chunker.py::split_documents
+THREAD: Worth getting a parking permit?
+
+Street parking on Verrill is legal and free and unmarked, which is why half the upper years do it.
+```
+
+**Criterion 5:** exact figures:
+
+```
+How much is the commuter lounge locker in the student center? — run 1
+The locker in the student centre commuter lounge costs $20 a year (from thread_commuting.txt).
+
+How many times can I use the pass/fail option? — run 1
+Based on the documents, you can use the pass/fail option twice per year and eight times across your degree (*thread_pass_fail.txt*).
+```
 
 ## Verdicts
 
@@ -200,11 +241,11 @@ I ran my five test questions and the five `OUT_OF_SCOPE` questions through `pyth
 
 | # | Criterion | Verdict | How I decided |
 |---|---|---|---|
-| 1 |  |  |  |
-| 2 |  |  |  |
-| 3 |  |  |  |
-| 4 |  |  |  |
-| 5 |  |  |  |
+| 1 | Retrieved chunk contains the answer | MET | The right thread came back for all 5 questions in all 3 runs, 5 of 5 against a target of 4. |
+| 2 | Every answer names a source | MET | All 15 answers named the source file. |
+| 3 | Gate stops out-of-corpus questions | MET | The gate refused 5 of 5. The closest was ibuprofen at 0.819, well above my 0.55 cutoff. |
+| 4 | Every chunk reads as a complete thought | MET | All 5 chunks from `app.py chunks -n 5` have the thread question and one full reply. |
+| 5 | Exact facts come through | MET | "$20" appeared in 3 of 3 runs. Pass/fail run 1 said "twice per year" instead of "two per year". I counted it because the figure is still correct, and this criterion is about wrong numbers, not wording. |
 
 ## Diagnoses
 
