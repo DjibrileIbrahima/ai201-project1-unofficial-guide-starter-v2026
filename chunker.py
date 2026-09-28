@@ -22,6 +22,7 @@ to it, write down what you saw, and move on. That's a real observation about
 your pipeline, not giving up.
 """
 
+import re
 from dataclasses import dataclass
 
 import config
@@ -97,7 +98,35 @@ def split_documents(documents: list[Document]) -> list[Chunk]:
       - Would splitting on paragraph breaks keep more thoughts intact than
         splitting on a character count?
     """
-    return fallback_split(documents)
+    chunks: list[Chunk] = []
+    for doc in documents:
+        parts = REPLY_MARKER.split(doc.text)
+        header = parts[0].strip()      # the "THREAD: ..." question line
+        replies = [p.strip() for p in parts[1:] if p.strip()]
+
+        # Not a thread (no reply markers): keep the whole document as one chunk.
+        if not replies:
+            pieces = [doc.text.strip()] if doc.text.strip() else []
+        else:
+            # One reply per chunk, with the thread question on top so the reply
+            # still makes sense when it's retrieved on its own.
+            pieces = [f"{header}\n\n{reply}" for reply in replies]
+
+        for index, piece in enumerate(pieces):
+            chunks.append(
+                Chunk(
+                    text=piece,
+                    source=doc.source,
+                    index=index,
+                    produced_by="chunker.py::split_documents",
+                )
+            )
+
+    return chunks
+
+
+# Matches the separator lines between replies, e.g. "--- reply 3 (35 votes) ---"
+REPLY_MARKER = re.compile(r"^-{3}\s*reply\s+\d+.*?-{3}\s*$", re.IGNORECASE | re.MULTILINE)
 
 
 def describe(chunks: list[Chunk]) -> str:
