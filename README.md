@@ -100,14 +100,22 @@ The library being open until 2am is a trap. It's a resource, not a schedule.
 <!-- One complete question and answer, pasted as text, with the source line
      visible. Milestone 4. -->
 
-**Question:**
+**Question: Which parking lots sell out in August?**
 
 **Answer:**
 
 ```
+  (best distance 0.290, cutoff 0.55)
+
+The west lots sell out in about three days in August (thread_parking.txt).
+
+Sources retrieved: thread_internship_timing.txt, thread_parking.txt, thread_winter_advice.txt
 ```
 
-**My relevance cutoff:**
+**My relevance cutoff: 0.55**
+
+I ran my five test questions and the five `OUT_OF_SCOPE` questions through `python app.py retrieve` and recorded the best distance for each. The two groups didn't overlap. In-corpus questions scored 0.29–0.44 and out-of-scope questions scored 0.82–0.90, so any cutoff between 0.44 and 0.82 separates them. I set it at 0.55, inside the gap but closer to the in-corpus side. For a guide like this, refusing a real question costs less than answering from unrelated threads. The out-of-scope questions still pulled back real chunks (for example, a laptop thread for the ibuprofen question), so a loose cutoff would give the model thin, irrelevant material. The risk runs the other way. My winter question already drifted to 0.44 because "what should I wear" is worded differently from the thread's "what do I need?", so a real question worded even more loosely could land above 0.55 and be refused.
+
 
 <!-- The number you set in config.py, and how you got there.
 
@@ -120,7 +128,16 @@ The library being open until 2am is a trap. It's a resource, not a schedule.
 
 | Question | In corpus? | Best distance |
 |---|---|---|
-|  |  |  |
+| What should I wear in winter? | Yes | 0.4409 |
+| Does fixing your sleep matter, yes or no? | Yes | 0.3189 |
+| Which parking lots sell out in August? | Yes | 0.2898 |
+| How many times can I use the pass/fail option? | Yes | 0.3312 |
+| How much is the commuter lounge locker in the student center? | Yes | 0.3240 |
+| What is the capital of Mongolia? | No | 0.8990 |
+| How do I change the oil in a diesel engine? | No | 0.9047 |
+| Who won the 1994 World Cup? | No | 0.8982 |
+| What is the recommended dosage of ibuprofen for a headache? | No | 0.8189 |
+| How do I write a for loop in Rust? | No | 0.8606 |
 
 ## How I Used AI
 
