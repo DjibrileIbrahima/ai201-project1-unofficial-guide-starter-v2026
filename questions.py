@@ -22,11 +22,11 @@ names a target of "4 of 5", and four of three is not a thing.
 """
 
 QUESTIONS = [
-    # {"question": "...", "expects": "..."},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
-    {"question": "", "expects": ""},
+    # {"question": "...": "..."},
+    {"question": "What is Harbourmaster?", "expects": "Harbourmaster is a board game."},
+    {"question": "How many players is Harbourmaster played?", "expects": "2 to 4 players."},
+    {"question": "What are the rules of the game?", "expects": ""},
+    {"question": "When does the game end?", "expects": ""},
     {"question": "", "expects": ""},
 ]
 

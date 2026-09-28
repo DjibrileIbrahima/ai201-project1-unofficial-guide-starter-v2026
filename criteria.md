@@ -55,7 +55,9 @@ in at least 4 of 5 tries.
 
 ---
 
-## 4. Something about your chunks
+## 4. How many models were called?
+
+Every answer the system produces, it shows how many models were called.
 
 <!-- YOU WRITE THIS ONE.
 
@@ -77,7 +79,9 @@ in at least 4 of 5 tries.
 
 ---
 
-## 5. Your choice
+## 5. How much tokens were used?
+
+Every answer the system produces, it shows how many tokens were used.
 
 <!-- YOU WRITE THIS ONE TOO.
 
