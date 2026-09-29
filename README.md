@@ -267,6 +267,14 @@ Based on the documents, you can use the pass/fail option twice per year and eigh
 
      Milestone 3. -->
 
+I missed nothing. All five criteria were met in all three runs.
+
+Some of my targets were set too low. Criteria 1 and 3 asked for 4 of 5, but I got 5 of 5 every time with room to spare. My weakest question (winter, 0.44) still found the right thread, and my closest off-topic question (0.82) was far above the 0.55 cutoff.
+
+I would tighten criterion 1 to: "For 5 of 5 questions, the #1 result contains the answer." Right now it only asks for the answer to be somewhere in the top 5, which is easy for a corpus this small.
+
+**One near-miss:** For the pass/fail question, run 1 said "twice per year" instead of "two per year". This is a generation problem, not retrieval. The right chunk came back every time with the exact text "Two per year and eight across the degree", but the model reworded it instead of quoting it. That is why the wording changed between runs.
+
 ## The Improvement
 
 **What I changed:**
